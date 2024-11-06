@@ -1,0 +1,128 @@
+<ng-container
+    *ngIf="{
+        isOpen: (isOpen$ | async) || false,
+        status: status$ | async,
+    } as data"
+>
+    <p-dialog
+        [(visible)]="data.isOpen"
+        (onHide)="close()"
+        [modal]="true"
+        [style]="{ width: '50vw', height: 'auto' }"
+        styleClass="add-new-event-modal"
+        [breakpoints]="{ '700px': '100vw' }"
+        [showHeader]="false"
+        [draggable]="false"
+        [resizable]="false"
+        [dismissableMask]="true"
+        appendTo="body"
+    >
+        <div class="modal-inner-container">
+            <div class="modal-header">
+                <h2>Add New Event</h2>
+            </div>
+            <p-divider></p-divider>
+            <div class="modal-body">
+                <form [formGroup]="addNewEventForm">
+                    <div class="row-container">
+                        <div class="cell-container full-width">
+                            <label for="title">Title</label>
+                            <input
+                                pInputText
+                                inputId="title"
+                                name="title"
+                                formControlName="title"
+                            />
+                        </div>
+                        <div class="cell-container full-width">
+                            <label for="description">Description</label>
+                            <input
+                                pInputText
+                                inputId="description"
+                                name="description"
+                                formControlName="description"
+                            />
+                        </div>
+                        <div class="cell-container half-width">
+                            <label for="startDate">Start Date</label>
+                            <p-calendar
+                                id="startDate"
+                                dateFormat="mm/dd/yy"
+                                formControlName="startDate"
+                                appendTo="body"
+                                [showIcon]="true"
+                                styleClass="calendar-icon"
+                                [selectOtherMonths]="true"
+                            >
+                            </p-calendar>
+                        </div>
+                        <div class="cell-container half-width">
+                            <label for="startTime">Start Time</label>
+                            <p-calendar
+                                id="startTime"
+                                formControlName="startTime"
+                                appendTo="body"
+                                [showIcon]="true"
+                                styleClass="time-icon"
+                                [selectOtherMonths]="true"
+                                [showTime]="true"
+                                timeOnly="true"
+                                hourFormat="24"
+                            >
+                            </p-calendar>
+                        </div>
+                        <div class="cell-container half-width">
+                            <label for="endDate">End Date</label>
+                            <p-calendar
+                                id="endDate"
+                                dateFormat="mm/dd/yy"
+                                formControlName="endDate"
+                                appendTo="body"
+                                [showIcon]="true"
+                                styleClass="calendar-icon"
+                                [selectOtherMonths]="true"
+                            >
+                            </p-calendar>
+                        </div>
+                        <div class="cell-container half-width">
+                            <label for="endTime">End Time</label>
+                            <p-calendar
+                                id="endTime"
+                                formControlName="endTime"
+                                appendTo="body"
+                                [showIcon]="true"
+                                styleClass="time-icon"
+                                [selectOtherMonths]="true"
+                                [showTime]="true"
+                                timeOnly="true"
+                                hourFormat="24"
+                            >
+                            </p-calendar>
+                        </div>
+                    </div>
+                </form>
+                <div class="btn-container">
+                    <button
+                        pButton
+                        class="btn btn-primary p-button-outlined"
+                        [disabled]="data.status === 'loading'"
+                        size="small"
+                        (click)="close()"
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        pButton
+                        class="btn btn-primary"
+                        [loading]="data.status === 'loading'"
+                        [disabled]="data.status === 'loading'"
+                        size="small"
+                        (click)="save()"
+                    >
+                        &nbsp;Add&nbsp;
+                    </button>
+                </div>
+            </div>
+        </div>
+    </p-dialog>
+</ng-container>

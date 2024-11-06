@@ -1,0 +1,17 @@
+<ng-container
+    *ngIf="{
+        status: status$ | async
+    } as config"
+    ><div class="container">
+        <button
+            pButton
+            class="btn btn-primary"
+            (click)="auth()"
+            [loading]="config.status === 'loading'"
+            [disabled]="config.status === 'loading'"
+        >
+            <i class="pi pi-sign-in" *ngIf="config.status === 'idle'"></i>&nbsp;
+            Authentication
+        </button>
+    </div>
+</ng-container>

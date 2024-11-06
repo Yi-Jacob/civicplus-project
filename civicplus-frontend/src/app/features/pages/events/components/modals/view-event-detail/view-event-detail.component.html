@@ -1,0 +1,111 @@
+<ng-container
+    *ngIf="{
+        isOpen: (isOpen$ | async) || false,
+        status: status$ | async,
+        eventDetail: eventDetail$ | async,
+    } as data"
+>
+    <p-dialog
+        [(visible)]="data.isOpen"
+        (onHide)="close()"
+        [modal]="true"
+        [style]="{ width: '60vw', height: 'auto' }"
+        styleClass="view-event-detail-modal"
+        [breakpoints]="{ '700px': '100vw' }"
+        [showHeader]="false"
+        [draggable]="false"
+        [resizable]="false"
+        [dismissableMask]="true"
+        appendTo="body"
+    >
+        <div class="modal-inner-container">
+            <div class="modal-header">
+                <h2>Event Detail</h2>
+            </div>
+            <p-divider></p-divider>
+            <div class="modal-body">
+                <form [formGroup]="eventDetailForm">
+                    <ng-container [ngSwitch]="data.status">
+                        <ng-container *ngSwitchCase="'loading'">
+                            <p>Loading ...</p>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'error'">
+                            <div class="error-state">
+                                <span>Error loading Equipment Type</span>
+                                <button pButton>Retry</button>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'success'">
+                            <ng-container
+                                *ngIf="data.eventDetail as eventDetail"
+                            >
+                                <div class="row-container">
+                                    <div class="cell-container">
+                                        <label for="title">Title</label>
+                                        <p>
+                                            {{ eventDetail.title }}
+                                        </p>
+                                    </div>
+                                    <div class="cell-container">
+                                        <label for="description"
+                                            >Description</label
+                                        >
+                                        <p>
+                                            {{ eventDetail.description }}
+                                        </p>
+                                    </div>
+                                    <div class="cell-container">
+                                        <label for="startDate"
+                                            >Start Date</label
+                                        >
+                                        <p>
+                                            {{ eventDetail.startDate | date: 'yyyy-MM-dd' }}
+                                        </p>
+                                    </div>
+                                    <div class="cell-container">
+                                        <label for="startTime">Start Time</label>
+                                        <p>
+                                            {{ eventDetail.startDate  | date: 'HH:mm:ss'}}
+                                        </p>
+                                    </div>
+                                    <div class="cell-container">
+                                        <label for="startDate"
+                                            >End Date</label
+                                        >
+                                        <p>
+                                            {{ eventDetail.endDate | date: 'yyyy-MM-dd'  }}
+                                        </p>
+                                    </div>
+                                    <div class="cell-container">
+                                        <label for="endDate">End Time</label>
+                                        <p>
+                                            {{ eventDetail.endDate | date: 'HH:mm:ss' }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </ng-container>
+                    </ng-container>
+                </form>
+                <div class="btn-container">
+                    <ng-container *ngIf="data.status === 'error'">
+                        <div>
+                            <span class="text-error"
+                                >Failed to save Equipment Type</span
+                            >
+                        </div>
+                    </ng-container>
+
+                    <button
+                        pButton
+                        class="btn btn-primary p-button-outlined"
+                        (click)="close()"
+                        size="small"
+                    >
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </p-dialog>
+</ng-container>
